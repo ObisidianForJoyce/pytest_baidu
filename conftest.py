@@ -1,32 +1,20 @@
+# conftest.py
 import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
+from selenium.webdriver import Edge
 from selenium.webdriver.edge.options import Options as EdgeOptions
-from Common.options_chrome import options1
-from config.conf import ConfigManager
 
-driver = None
 
-@pytest.fixture(scope="session")
-def browser():
-    global driver
+@pytest.fixture(scope="function")  # 作用域设为每个测试函数
+def edge_browser(request):
+    # 配置Edge选项
+    options = EdgeOptions()
+    options.add_argument("--headless=new")  # 启用无头模式
+    options.add_argument("--disable-gpu")  # 禁用GPU加速，可选
+    options.add_argument("--no-sandbox")  # 禁用沙箱模式，适用于Linux环境
 
-    def browser():
-        global driver
-        edge_options = EdgeOptions()
-        edge_options.add_argument("--start-maximized")
-        edge_options.add_argument("--headless=new")
+    # 初始化Edge WebDriver
+    driver = Edge(options=options)
 
-        # chrome_options = Options()
-        # chrome_options.add_argument("--headless")
-        if driver is None:
-            driver = webdriver.Edge(options=edge_options)
-            # driver = webdriver.Chrome(options=chrome_options)
-        # driver.maximize_window()
-        driver.get(ConfigManager.BAIDU_URL)
-        driver.implicitly_wait(5)
-        print("Start to starting browser:Chrome")
-
-        yield driver
-        driver.quit()
+    # 确保测试结束后关闭浏览器
+    request.addfinalizer(driver.quit)
+    return driver

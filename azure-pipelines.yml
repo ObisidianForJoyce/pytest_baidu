@@ -1,0 +1,45 @@
+trigger:
+- master  # 当代码推送到 main 分支时触发 Pipeline
+
+pool:
+  vmImage: 'windows-latest'  # 使用微软托管的 Windows 代理（已预装 Edge 浏览器）
+
+variables:
+  python.version: '3.12'     # 指定 Python 版本
+  EDGE_WEBDRIVER_PATH: $(System.DefaultWorkingDirectory)/drivers
+
+stages:
+- stage: Test
+  jobs:
+  - job: Run_Pytest
+    steps:
+    # 步骤 1：安装 Python
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: $(python.version)
+        architecture: 'x64'
+
+    # 步骤 2：安装依赖
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+      displayName: '安装依赖库'
+
+    # 步骤 3：创建 Edge WebDriver 目录
+    - script: |
+        mkdir drivers
+      displayName: '创建 Driver 目录'
+
+    # 步骤 4：运行 pytest 测试（无头模式）
+    - script: |
+        python -m pytest testcase/bd_test_example.py --browser=edge --headless=true --junitxml=test-results.xml
+      displayName: '运行 pytest 测试'
+      env:
+        # 指定 WebDriver 自动下载路径
+        EDGE_WEBDRIVER_PATH: $(EDGE_WEBDRIVER_PATH)
+
+    # 步骤 5：发布测试结果
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFiles: '**/test-results.xml'
+        testRunTitle: 'Edge 无头模式测试报告'

@@ -3,7 +3,7 @@ import pytest
 
 from Common.csv_utli import read_csv
 from Common.log_handle import logger
-from conftest import browser
+from conftest_bak import browser
 from page.login.login_action import LoginPage
 
 
