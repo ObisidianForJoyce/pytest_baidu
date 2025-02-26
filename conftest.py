@@ -9,7 +9,7 @@ def pytest_addoption(parser):
                      type=bool,
                      default=True,  # 默认启用无头模式
                      help="是否启用无头模式: True 或 False")
-    
+
 @pytest.fixture(scope="function")  # 作用域设为每个测试函数
 def edge_browser(request):
     # 配置Edge选项
