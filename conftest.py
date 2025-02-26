@@ -14,7 +14,7 @@ def pytest_addoption(parser):
 def edge_browser(request):
     # 配置Edge选项
     options = EdgeOptions()
-    options.add_argument("--headless=new")  # 启用无头模式
+   # options.add_argument("--headless=new")  # 启用无头模式
     options.add_argument("--disable-gpu")  # 禁用GPU加速，可选
     options.add_argument("--no-sandbox")  # 禁用沙箱模式，适用于Linux环境
 
