@@ -1,0 +1,4 @@
+selenium
+pytest
+webdriver-manager
+pytest-azurepipelines  # optimize the azure devops report
