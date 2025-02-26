@@ -32,7 +32,7 @@ stages:
 
     # 步骤 4：运行 pytest 测试（无头模式）
     - script: |
-        python -m pytest testcase/bd_test_example.py --browser=edge --headless=true --junitxml=test-results.xml
+        --browser=edge --headless=true --junitxml=test-results.xml
       displayName: '运行 pytest 测试'
       env:
         # 指定 WebDriver 自动下载路径
