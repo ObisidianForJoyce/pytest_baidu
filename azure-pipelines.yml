@@ -42,5 +42,5 @@ stages:
     - task: PublishTestResults@2
       inputs:
         #testResultsFiles: '**/test-results.xml'
-        testResultsFiles: '**/*result.json'
+        testResultsFiles: '**/test-output.xml'
         testRunTitle: 'Edge headless report'
