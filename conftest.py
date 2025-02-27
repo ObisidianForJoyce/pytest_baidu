@@ -3,12 +3,12 @@ import pytest
 from selenium.webdriver import Edge
 from selenium.webdriver.edge.options import Options as EdgeOptions
 
-def pytest_addoption(parser):
-
-    parser.addoption("--headless",
-                     type=bool,
-                     default=True,
-                     help="Headless Mode: True / False")
+# def pytest_addoption(parser):
+#
+#     parser.addoption("--headless",
+#                      type=bool,
+#                      default=True,
+#                      help="Headless Mode: True / False")
 
 @pytest.fixture(scope="function")
 def edge_browser(request):
