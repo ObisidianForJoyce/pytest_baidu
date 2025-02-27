@@ -1,11 +1,11 @@
 trigger:
-- master  # 当代码推送到 main 分支时触发 Pipeline
+- master  # Trigger when push code to master branch.
 
 pool:
-  vmImage: 'windows-latest'  # 使用微软托管的 Windows 代理（已预装 Edge 浏览器）
+  vmImage: 'windows-latest'  # Microsoft-hosted Windows agents（already installed Edge browser）
 
 variables:
-  python.version: '3.12'     # 指定 Python 版本
+  python.version: '3.12'     # Python version
   EDGE_WEBDRIVER_PATH: $(System.DefaultWorkingDirectory)/drivers
 
 stages:
@@ -13,33 +13,33 @@ stages:
   jobs:
   - job: Run_Pytest
     steps:
-    # 步骤 1：安装 Python
+    # step 1：install Python
     - task: UsePythonVersion@0
       inputs:
         versionSpec: $(python.version)
         architecture: 'x64'
 
-    # 步骤 2：安装依赖
+    # step 2：install dependencies
     - script: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-      displayName: '安装依赖库'
+      displayName: 'Install Dependencies'
 
-    # 步骤 3：创建 Edge WebDriver 目录
+    # step 3：Create Edge WebDriver Directory
     - script: |
         mkdir drivers
-      displayName: '创建 Driver 目录'
+      displayName: 'Create Driver Directory'
 
-    # 步骤 4：运行 pytest 测试（无头模式）
+    # step 4：Run pytest cases（headless）
     - script: |
         python -m pytest testcase/bd_test_example.py
-      displayName: '运行 pytest 测试'
+      displayName: 'Run Pytest Cases'
       env:
-        # 指定 WebDriver 自动下载路径
+        # WebDriver Auto Download Path
         EDGE_WEBDRIVER_PATH: $(EDGE_WEBDRIVER_PATH)
 
-    # 步骤 5：发布测试结果
+    # step 5：Publish Test Result
     - task: PublishTestResults@2
       inputs:
         testResultsFiles: '**/test-results.xml'
-        testRunTitle: 'Edge 无头模式测试报告'
+        testRunTitle: 'Edge headless report'
