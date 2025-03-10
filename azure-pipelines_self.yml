@@ -13,10 +13,10 @@ stages:
   - job: Run_Pytest
     steps:
     # step 1：install Python
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: $(python.version)
-        architecture: 'x64'
+    # - task: UsePythonVersion@0
+    #   inputs:
+    #     versionSpec: $(python.version)
+    #     architecture: 'x64'
 
     # step 2：install dependencies
     - script: |
