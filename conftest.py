@@ -14,7 +14,7 @@ from selenium.webdriver.edge.options import Options as EdgeOptions
 def edge_browser(request):
     # Edge Options
     options = EdgeOptions()
-   # options.add_argument("--headless=new")  # headless
+    #options.add_argument("--headless=new")  # headless
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")  # For linux
 
