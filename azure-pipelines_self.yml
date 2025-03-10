@@ -1,8 +1,7 @@
 trigger:
-- master  # Trigger when push code to master branch.
+- master
 
-pool:
-  vmImage: JoyceP53'  # Self-hosted Windows agents（already installed Edge browser）
+pool: JoyceP53  # Self-hosted Windows agents（already installed Edge browser）
 
 variables:
   python.version: '3.12'     # Python version
