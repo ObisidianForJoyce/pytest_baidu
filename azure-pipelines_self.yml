@@ -2,11 +2,11 @@ trigger:
 - master  # Trigger when push code to master branch.
 
 pool:
-  vmImage: 'windows-latest'  # Microsoft-hosted Windows agents（already installed Edge browser）
+  vmImage: JoyceP53'  # Self-hosted Windows agents（already installed Edge browser）
 
 variables:
   python.version: '3.12'     # Python version
-  EDGE_WEBDRIVER_PATH: $(System.DefaultWorkingDirectory)/drivers
+  EDGE_WEBDRIVER_PATH: "C:\\drivers"
 
 stages:
 - stage: Test
