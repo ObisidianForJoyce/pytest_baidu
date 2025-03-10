@@ -1,0 +1,45 @@
+trigger:
+- master
+
+pool: JoyceP53  # Self-hosted Windows agents（already installed Edge browser）
+
+variables:
+  python.version: '3.12'     # Python version
+  EDGE_WEBDRIVER_PATH: "C:\\drivers"
+
+stages:
+- stage: Test
+  jobs:
+  - job: Run_Pytest
+    steps:
+    # step 1：install Python
+    # - task: UsePythonVersion@0
+    #   inputs:
+    #     versionSpec: $(python.version)
+    #     architecture: 'x64'
+
+    # step 2：install dependencies
+    - script: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+      displayName: 'Install Dependencies'
+
+    # step 3：Create Edge WebDriver Directory
+    - script: |
+        mkdir drivers
+      displayName: 'Create Driver Directory'
+
+    # step 4：Run pytest cases（headless）
+    - script: |
+        python -m pytest testcase/bd_test_example.py
+      displayName: 'Run Pytest Cases'
+      env:
+        # WebDriver Auto Download Path
+        EDGE_WEBDRIVER_PATH: $(EDGE_WEBDRIVER_PATH)
+
+    # step 5：Publish Test Result
+    - task: PublishTestResults@2
+      inputs:
+        #testResultsFiles: '**/test-results.xml'
+        testResultsFiles: '**/test-output.xml'
+        testRunTitle: 'Edge headless report'
